@@ -1,0 +1,33 @@
+TadjitdinovAziz1#configure terminal
+Enter configuration commands, one per line. End with CNTL/Z.
+TadjitdinovAziz1(config) #int
+TadjitdinovAziz1(config) #interface fa
+TadjitdinovAziz1(config) #interface fastEthernet 0/0
+tInvalid interface type and number
+TadjitdinovAziz1(config) #interface fastEthernet 0/1
+TadjitdinovAziz1(config-if) #switchport mode access
+TadjitdinovAziz1(config-if) #interface fastEthernet 0/2
+TadjitdinovAziz1(config-if) #switchport mode access
+TadjitdinovAziz1(config-if) #interface fastEthernet 0/3
+TadjitdinovAziz1(config-if) #switchport mode access
+TadjitdinovAziz1(config-if) #interface fastEthernet 0/4
+TadjitdinovAziz1(config-if) #switchport mode tru
+TadjitdinovAziz1(config-if) #switchport mode trunk
+TadjitdinovAziz1(config-if) #interface fastEthernet 0/1
+TadjitdinovAziz1(config-if) #switchport port-security
+TadjitdinovAziz1(config-if) #switchport port-security mac-address sticky
+TadjitdinovAziz1(config-if) #interface fastEthernet 0/2
+TadjitdinovAziz1(config-if) #switchport port-security
+TadjitdinovAziz1(config-if) #switchport port-security mac-address 0009.7C91.B2B5
+TadjitdinovAziz1(config-if)#interface fastEthernet 0/3
+TadjitdinovAziz1(config-if) #switchport port-security
+TadjitdinovAziz1(config-if) #switchport port-security mac-address sticky
+TadjitdinovAziz1(config-if) #switchport port-security mac-address vi
+TadjitdinovAziz1(config-if) #switchport port-security mac-address vio
+TadjitdinovAziz1(config-if) #switchport port-security mac-address viol
+TadjitdinovAziz1(config-if) #switchport port-security mac-address violation protect
+Invalid input detected at marker.
+TadjitdinovAziz1(config-if) #switchport port-security vio
+TadjitdinovAziz1(config-if) #switchport port-security violation p
+TadjitdinovAziz1(config-if) #switchport port-security violation protect
+TadjitdinovAziz1(config-if)#
