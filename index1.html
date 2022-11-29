@@ -8,38 +8,6 @@
     <title>Document</title>
 </head> 
 <body>
-    <!-- <div class="offcanvas offcanvas-start"
-    tabindex="-1"
-    id="offcanvas"
-    aria-labelledby="offcanvasLabel">
-        <div class="offcanvas-header">
-            <h1 class="offcanvas-title" id="offcanvas-title">
-                Header
-            </h1>
-            <button class="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="card">
-                <div class="card-header">
-                    <h1 class="card-title">
-                        Lorem, ipsum.
-                    </h1>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae similique placeat hic perferendis labore! Aspernatur?
-                </div>
-                <div class="card-footer">
-                    Lorem, ipsum dolor.
-                </div>
-            </div>
-        </div>
-    </div>
-    <a href="#offcanvas" class="btn btn-info"
-    role="button"
-    data-bs-toggle="offcanvas"
-    aria-controls="offcanvas">open</a> -->
     <nav class="navbar navbar-light bg-light navbar-expand-sm">
         <div class="container-fluid">
             <a href="#" class="navbar-brand">
@@ -62,6 +30,43 @@
             </form>
         </div>
     </nav>
+
+<!-- ----------------------------------------------------- -->
+
+    <div class="container my-5">
+        <nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
+            <a class="navbar-brand" href="#">Панель навигации</a>
+            <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="#scrollspyHeading1">Первый</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#scrollspyHeading2">Второй</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Выпадающий список</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#scrollspyHeading3">Третий</a></li>
+                    <li><a class="dropdown-item" href="#scrollspyHeading4">Четвертый</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#scrollspyHeading5">Пятый</a></li>
+                </ul>
+            </li>
+            </ul>
+        </nav>
+    </div>
+
+
+
+    <div class="container my-5">
+        <div class="progress" style="height: 50px;">
+            <div class="progress-bar bg-danger progress-bar-striped" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        </div>
+    </div>
+
+
 <script src="js/bootstrap.js"></script>
 </body>
 </html>
