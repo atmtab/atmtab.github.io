@@ -4,10 +4,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Bootstrap/css/bootstrap.css">
     <title>Document</title>
 </head>
 <body>
-    <a href="index1.html">Домашка 1</a>
-    <a href="index1 copy.html">Домашка 2</a>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+        <div class="container-fluid">
+            <a href="" class="navbar-brand">
+                <img src="Assets/photo_2022-11-29_20-15-36.jpg" alt="no image" width="30">
+                Kuma's Homepage
+            </a>
+            <button class="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle Nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="#" class="nav-link">Lorem.</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Iure!</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Commodi.</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid text-bg-dark">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-bg-dark">
+                    <img class="card-img-top" src="Assets/photo_2022-11-29_20-15-36.jpg" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Домашняя работа 1</h5>
+                        <p class="card-text">Навигационная панель, Карточки, Всплывающие уведомления</p>
+                        <a href="Homework 1/index1.html" class="btn btn-warning">Посмотреть</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-bg-dark">
+                    <img class="card-img-top" src="Assets/photo_2022-11-29_20-15-36.jpg" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Домашняя работа 2</h5>
+                        <p class="card-text">Прогрессбар, Отслеживание прокрутки</p>
+                        <a href="Homework 2/index1 copy.html" class="btn btn-warning">Посмотреть</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="Bootstrap/js/bootstrap.js"></script>
 </body>
 </html>
