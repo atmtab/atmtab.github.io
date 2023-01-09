@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floating" placeholder="name@example.com">
+            <label for="floating">Email address</label>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="accordion" id="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="header1">
+                    <button class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse1"
+                    aria-expanded="false"
+                    aria-controls="collapse1">Accordion item</button>
+                </h2>
+                <div id="collapse1"
+                class="accordion-collapse collapse show"
+                aria-labelledby="header1"
+                data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, molestias optio! Quas dicta porro molestias consequuntur, voluptatum tempora distinctio suscipit non adipisci, cumque optio, nulla consectetur quis esse tempore ratione?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="header2">
+                    <button class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse2"
+                    aria-expanded="false"
+                    aria-controls="collapse2">Accordion item2</button>
+                </h2>
+                <div id="collapse2"
+                class="accordion-collapse collapse"
+                aria-labelledby="header2"
+                data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, molestias optio! Quas dicta porro molestias consequuntur, voluptatum tempora distinctio suscipit non adipisci, cumque optio, nulla consectetur quis esse tempore ratione?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="header3">
+                    <button class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse3"
+                    aria-expanded="false"
+                    aria-controls="collapse3">Accordion item</button>
+                </h2>
+                <div id="collapse3"
+                class="accordion-collapse collapse"
+                aria-labelledby="header3"
+                data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, molestias optio! Quas dicta porro molestias consequuntur, voluptatum tempora distinctio suscipit non adipisci, cumque optio, nulla consectetur quis esse tempore ratione?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-primary" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-radioactive" viewBox="0 0 16 16">
+                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"/>
+                <path d="M9.653 5.496A2.986 2.986 0 0 0 8 5c-.61 0-1.179.183-1.653.496L4.694 2.992A5.972 5.972 0 0 1 8 2c1.222 0 2.358.365 3.306.992L9.653 5.496Zm1.342 2.324a2.986 2.986 0 0 1-.884 2.312 3.01 3.01 0 0 1-.769.552l1.342 2.683c.57-.286 1.09-.66 1.538-1.103a5.986 5.986 0 0 0 1.767-4.624l-2.994.18Zm-5.679 5.548 1.342-2.684A3 3 0 0 1 5.005 7.82l-2.994-.18a6 6 0 0 0 3.306 5.728ZM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
+            </svg>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, consectetur.
+        </div>
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Lorem, ipsum.</h4>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, nisi nesciunt quos soluta autem reprehenderit. Nesciunt quia adipisci minima ipsam!</p>
+            <hr>
+            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, reiciendis!</p>
+        </div>
+    </div>
+    <br><br><br><br><br>
+    <h1>Collection winter <span class="badge bg-warning">New</span></h1>
+    <button class="btn btn-primary">count <span class="badge bg-secondary">3</span></button>
+    <button type="button" class="btn btn-primary position-relative">
+        New Messages
+        <span class="positon-absolute 
+        top-0 start-50 translate-middle 
+        badge rounded-pill bg-danger">99+</span>
+        <span class="visually-hidden">unread messages</span>
+    </button>
+    <h1>Collection winter <span class="badge bg-danger rounded-pill">New</span></h1>
+<script src="js/bootstrap.js"></script>  
+</body>
+</html>
