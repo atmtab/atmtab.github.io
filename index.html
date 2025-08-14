@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IT Park • Smart Search Demo</title>
+<style>
+  :root{
+    --bg:#f6f7fb;
+    --panel:#ffffff;
+    --ink:#1b1f23;
+    --muted:#6b7280;
+    --line:#e6e8ef;
+    --green:#86d243; /* близко к зелёному IT Park */
+    --green-ink:#1c5d1c;
+    --blue:#2f6df6;
+    --warning:#ffb657;
+    --danger:#ff6b6b;
+    --radius:14px;
+    --shadow:0 10px 25px rgba(17,24,39,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font:14px/1.35 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  /* ====== Layout (в стиле твоей CRM) ====== */
+  .app{
+    display:grid;
+    grid-template-columns: 240px 1fr;
+    min-height:100dvh;
+  }
+  .sidebar{
+    background:#fff;
+    border-right:1px solid var(--line);
+    padding:18px 14px;
+    position:sticky; top:0; height:100dvh;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px; padding:6px 8px 18px;
+    border-bottom:1px solid var(--line); margin-bottom:12px;
+  }
+  .brand-logo{
+    width:34px; height:34px; border-radius:50%;
+    display:grid; place-items:center; background:var(--green); color:#fff; font-weight:700;
+  }
+  .brand-title{font-weight:700}
+  .nav .item{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 12px; border-radius:10px; color:#2a2f36; text-decoration:none;
+  }
+  .nav .item:hover{background:#f1f5f9}
+  .nav .item.active{background:#eaffd9; color:#1f3d1f; font-weight:600}
+  .nav .item .dot{
+    width:22px; height:22px; border-radius:6px; display:grid; place-items:center;
+    background:#f3f4f6; color:#667085; font-size:12px;
+  }
+
+  .main{
+    padding:18px 22px;
+  }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:14px;
+  }
+  .topbar .search{
+    display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+    background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px; box-shadow:var(--shadow);
+  }
+  .input{
+    border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:#fff;
+    outline:none; min-width:280px;
+  }
+  .btn{
+    border:0; background:var(--green); color:#0b2f0b; padding:10px 14px; border-radius:10px; font-weight:700;
+    cursor:pointer; box-shadow:0 4px 10px rgba(134,210,67,.35);
+  }
+  .btn.secondary{background:#eef2ff; color:#233876; box-shadow:none}
+  .btn.ghost{background:#fff; border:1px solid var(--line); color:#111827; box-shadow:none}
+  .toggle{
+    background:#fff; border:1px solid var(--line); border-radius:999px; padding:4px; display:flex; gap:4px;
+  }
+  .toggle button{
+    background:transparent; border:0; padding:8px 12px; border-radius:999px; cursor:pointer; color:#334155;
+  }
+  .toggle button.active{background:#eaffd9; color:#1f3d1f; font-weight:700}
+
+  .headline{font-size:28px; font-weight:800; letter-spacing:.2px; margin:10px 0 6px}
+  .muted{color:var(--muted)}
+  .chips{display:flex; gap:8px; flex-wrap:wrap}
+  .chip{
+    border:1px solid var(--line); background:#fff; padding:6px 10px; border-radius:999px; cursor:pointer; color:#334155;
+  }
+  .chip.active{background:#eaffd9; border-color:#d9f7b4; color:#1f3d1f; font-weight:600}
+
+  /* ====== Columns (как канбан) ====== */
+  .columns{
+    display:grid; gap:14px; grid-template-columns: repeat(4, minmax(260px,1fr));
+  }
+  @media (max-width:1200px){ .columns{grid-template-columns: repeat(2, minmax(260px,1fr));} }
+  @media (max-width:700px){ .app{grid-template-columns:1fr} .sidebar{display:none} .columns{grid-template-columns:1fr} .input{min-width:unset; width:100%} }
+
+  .col{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+    display:flex; flex-direction:column; min-height:220px;
+  }
+  .col-head{
+    display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--line);
+  }
+  .badge{
+    display:inline-flex; align-items:center; gap:6px; padding:6px 10px; background:#f3f4f6; border-radius:999px; color:#1f2937; font-weight:600;
+  }
+  .badge.green{background:#eaffd9; color:#1a3d1a}
+  .list{padding:10px 10px 14px; display:flex; flex-direction:column; gap:10px}
+  .card{
+    border:1px solid var(--line); border-radius:12px; padding:12px; background:#fff; display:grid; gap:8px;
+  }
+  .card .title{font-weight:700}
+  .row{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .tag{
+    background:#f3f4f6; color:#475569; padding:4px 8px; border-radius:999px; font-size:12px;
+  }
+  .tag.green{background:#ddf9c7; color:#174417}
+  .stat{color:#64748b}
+  .pill{
+    font-size:12px; padding:4px 8px; border-radius:8px; background:#eef2ff; color:#22356f; display:inline-block;
+  }
+  .action{margin-left:auto; color:#2563eb; text-decoration:none; font-weight:600}
+
+  /* ====== Loading skeletons & AI stream ====== */
+  .skeleton{
+    position:relative; overflow:hidden; background:#f1f5f9; border-radius:8px; height:14px;
+  }
+  .skeleton::after{
+    content:""; position:absolute; inset:0; transform:translateX(-100%);
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
+    animation:shine 1.3s infinite;
+  }
+  @keyframes shine { to{ transform:translateX(100%);} }
+  .ai-box{
+    background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow);
+    padding:12px 14px; margin:12px 0;
+  }
+  .ai-text{min-height:22px; white-space:pre-wrap}
+  .ai-prefix{font-weight:700; color:#1f3d1f}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" aria-label="Навигация">
+    <div class="brand">
+      <div class="brand-logo">IT</div>
+      <div>
+        <div class="brand-title">IT PARK</div>
+        <div class="muted" style="font-size:12px">Uzbekistan</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a class="item" href="#"><span class="dot">🏢</span> Компании (CRM)</a>
+      <a class="item" href="#"><span class="dot">✅</span> Задачи (TASKS)</a>
+      <a class="item" href="#"><span class="dot">📊</span> KPI</a>
+      <a class="item" href="#"><span class="dot">💬</span> Служба поддержки</a>
+      <a class="item" href="#"><span class="dot">📄</span> Отчётность</a>
+      <a class="item" href="#"><span class="dot">🪪</span> Резиденты</a>
+      <a class="item active" href="#"><span class="dot">🔎</span> Smart Search</a>
+      <a class="item" href="#"><span class="dot">🧪</span> Экспертное заключение</a>
+      <a class="item" href="#"><span class="dot">📝</span> Заявления</a>
+      <a class="item" href="#"><span class="dot">📈</span> Статистика</a>
+    </nav>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="headline">Smart Search</div>
+        <div class="muted">Поиск резидентов по описанию или фильтрам — демо с имитацией нейросети.</div>
+      </div>
+      <div class="toggle" role="tablist" aria-label="Режим поиска">
+        <button id="mode-ai" class="active" aria-selected="true">AI</button>
+        <button id="mode-filters" aria-selected="false">Фильтры</button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="search">
+      <input id="q" class="input" placeholder="Опишите запрос: «ищу команды по гейм-дизайну с опытом UE5»" />
+      <div class="chips" id="chips">
+        <!-- динамически заполнится -->
+      </div>
+      <button class="btn" id="run">Найти</button>
+      <button class="btn ghost" id="reset">Сброс</button>
+    </div>
+
+    <!-- AI Stream Box -->
+    <div class="ai-box" id="aiBox" style="display:none">
+      <div class="ai-text"><span class="ai-prefix">Нейросеть: </span><span id="aiText"></span></div>
+    </div>
+
+    <!-- Columns -->
+    <section class="columns" id="cols">
+      <!-- Заполняется скриптом -->
+    </section>
+  </main>
+</div>
+
+<script>
+/* ====== Демоданные резидентов ====== */
+const RESIDENTS = [
+  { id:1, name:"Catzilla GS", sector:["Гейм-дизайн","Unity","AR/VR"], status:"Lead", region:"г. Ташкент", contact:"+998 90 123-45-67", lang:["ru","en"], employees:28, score:0.82 },
+  { id:2, name:"Istanca Çelik", sector:["Веб-разработка","FinTech","DevOps"], status:"Lead", region:"Андижанская область", contact:"+998 97 111-22-33", lang:["en","tr"], employees:45, score:0.76 },
+  { id:3, name:"Samda", sector:["IT-маркетинг","SMM","SEO"], status:"In progress", region:"г. Самарканд", contact:"+998 99 555-77-00", lang:["ru","uz"], employees:12, score:0.71 },
+  { id:4, name:"Crocsoft LLC", sector:["Веб-разработка","SaaS","AI"], status:"In progress", region:"Ташкентская область", contact:"+998 90 555-88-99", lang:["ru","en"], employees:63, score:0.69 },
+  { id:5, name:"Guytechgroup", sector:["Кибербезопасность","Аутсорс","SOC"], status:"Rejected", region:"г. Нукус", contact:"+998 95 222-44-66", lang:["ru","en"], employees:22, score:0.41 },
+  { id:6, name:"Eurasia Youth Academy", sector:["EdTech","Мобильная разработка","Веб-разработка"], status:"Lead", region:"г. Ташкент", contact:"+82 10-7777-7777", lang:["en","ko"], employees:18, score:0.64 },
+  { id:7, name:"Elefteria Translations", sector:["Локализация","Переводы","IT-маркетинг"], status:"Contact", region:"г. Ташкент", contact:"+998 71 555-00-77", lang:["ru","gr"], employees:9, score:0.52 },
+  { id:8, name:"Shenzhen CloudSoft", sector:["AI","Гейм-дизайн","UE5"], status:"In progress", region:"г. Ташкент", contact:"+86 131-0000-0000", lang:["en","zh"], employees:95, score:0.88 },
+  { id:9, name:"GreenByte Studio", sector:["Гейм-дизайн","Unity","2D/3D Art"], status:"Contact", region:"г. Фергана", contact:"+998 93 101-20-30", lang:["ru"], employees:14, score:0.73 },
+  { id:10,name:"MarketWise", sector:["IT-маркетинг","CRM","Аналитика"], status:"Contact", region:"г. Бухара", contact:"+998 90 303-40-50", lang:["ru","en"], employees:21, score:0.58 },
+  { id:11,name:"CloudBee", sector:["Веб-разработка","DevOps","Облака"], status:"Lead", region:"г. Ташкент", contact:"+998 90 909-00-01", lang:["ru","en"], employees:37, score:0.66 },
+  { id:12,name:"VRx Lab", sector:["AR/VR","Медицина","Гейм-дизайн"], status:"In progress", region:"г. Ташкент", contact:"+998 90 404-44-04", lang:["ru","en"], employees:26, score:0.79 }
+];
+
+const ALL_TAGS = Array.from(new Set(RESIDENTS.flatMap(r=>r.sector))).sort();
+
+/* ====== DOM ====== */
+const chipsEl = document.getElementById('chips');
+const colsEl  = document.getElementById('cols');
+const aiBox   = document.getElementById('aiBox');
+const aiText  = document.getElementById('aiText');
+const qEl     = document.getElementById('q');
+const runBtn  = document.getElementById('run');
+const resetBtn= document.getElementById('reset');
+const modeAI  = document.getElementById('mode-ai');
+const modeFilters = document.getElementById('mode-filters');
+
+let mode = 'ai';
+let activeTags = new Set();
+
+/* ====== UI Init ====== */
+function renderChips(){
+  chipsEl.innerHTML = '';
+  ALL_TAGS.forEach(tag=>{
+    const b = document.createElement('button'); b.className='chip'; b.textContent=tag;
+    b.onclick=()=>{ 
+      if(activeTags.has(tag)) { activeTags.delete(tag); b.classList.remove('active');}
+      else { activeTags.add(tag); b.classList.add('active');}
+      if(mode==='filters') runSearch();
+    };
+    chipsEl.appendChild(b);
+  });
+}
+function columnTemplate(title, count, tone=''){
+  return `
+  <div class="col">
+    <div class="col-head">
+      <div class="badge ${tone}">${title}</div>
+      <div class="muted">Всего: ${count}</div>
+    </div>
+    <div class="list"></div>
+  </div>`;
+}
+function cardTemplate(r){
+  const tags = r.sector.map(s=>`<span class="tag">${s}</span>`).join(' ');
+  return `
+    <div class="card">
+      <div class="row">
+        <div class="title">${r.name}</div>
+        <span class="pill">${r.region}</span>
+        <a class="action" href="javascript:void(0)" onclick="alert('Открыть карточку: ${r.name}')">Открыть ↗</a>
+      </div>
+      <div class="row">${tags}</div>
+      <div class="row stat">Сотрудники: ${r.employees} • Языки: ${r.lang.join(', ')} • Контакт: ${r.contact}</div>
+    </div>`;
+}
+function renderSkeletons(){
+  colsEl.innerHTML = `
+    ${columnTemplate('Contact', 0)}
+    ${columnTemplate('In progress', 0,'green')}
+    ${columnTemplate('Lead', 0)}
+    ${columnTemplate('Rejected', 0)}
+  `;
+  colsEl.querySelectorAll('.list').forEach(list=>{
+    for(let i=0;i<4;i++){
+      const el=document.createElement('div'); el.className='card';
+      el.innerHTML=`<div class="skeleton" style="height:18px;width:60%"></div>
+                    <div class="skeleton" style="height:12px;width:90%"></div>
+                    <div class="skeleton" style="height:12px;width:70%"></div>`;
+      list.appendChild(el);
+    }
+  });
+}
+
+function groupByStatus(items){
+  const buckets = {Contact:[], "In progress":[], Lead:[], Rejected:[]};
+  items.forEach(x=> buckets[x.status]?.push(x));
+  return buckets;
+}
+function renderResults(items){
+  const buckets = groupByStatus(items);
+  colsEl.innerHTML = `
+    ${columnTemplate('Contact', buckets.Contact.length)}
+    ${columnTemplate('In progress', buckets["In progress"].length,'green')}
+    ${columnTemplate('Lead', buckets.Lead.length)}
+    ${columnTemplate('Rejected', buckets.Rejected.length)}
+  `;
+  const lists = colsEl.querySelectorAll('.list');
+  ['Contact','In progress','Lead','Rejected'].forEach((k,idx)=>{
+    lists[idx].innerHTML = buckets[k].map(cardTemplate).join('') || `<div class="muted" style="padding:10px">Нет результатов</div>`;
+  });
+}
+
+/* ====== Fake AI ====== */
+function typewrite(targetEl, text, speed=18){
+  targetEl.textContent=''; let i=0;
+  return new Promise(resolve=>{
+    const t = setInterval(()=>{
+      targetEl.textContent += text[i++]||'';
+      if(i>=text.length){ clearInterval(t); resolve(); }
+    }, speed);
+  });
+}
+function aiNarrative(found){
+  const suggest = activeTags.size? ` по тегам «${[...activeTags].join(' • ')}»`:'';
+  const q = qEl.value.trim();
+  const intro = q? `Понял запрос «${q}». `:'';
+  return `${intro}Нашёл для вас несколько результатов${suggest}, подходящих под описание. 
+Оцениваю релевантность по стеку, размеру команды и языкам коммуникации. Вот что подходит лучше всего:`;
+}
+
+/* ====== Search logic ====== */
+function searchAI(){
+  // Простейший скоринг: по совпадению слов запроса и активных тегов
+  const q = qEl.value.toLowerCase();
+  const words = q.split(/[^a-zа-яё0-9+#]+/i).filter(Boolean);
+  let results = RESIDENTS.map(r=>{
+    let score = r.score;
+    words.forEach(w=>{
+      if(r.name.toLowerCase().includes(w)) score+=0.08;
+      if(r.sector.find(s=>s.toLowerCase().includes(w))) score+=0.12;
+      if(r.region.toLowerCase().includes(w)) score+=0.04;
+    });
+    [...activeTags].forEach(tag=>{ if(r.sector.includes(tag)) score+=0.15; });
+    return {...r, _s:score};
+  }).sort((a,b)=>b._s-a._s);
+
+  return results.slice(0, RESIDENTS.length); // всё, но отсортировано
+}
+function searchByFilters(){
+  let items = RESIDENTS;
+  if(activeTags.size){
+    items = items.filter(r => [...activeTags].every(t=> r.sector.includes(t)));
+  }
+  const q = qEl.value.trim().toLowerCase();
+  if(q){
+    items = items.filter(r =>
+      r.name.toLowerCase().includes(q) ||
+      r.region.toLowerCase().includes(q) ||
+      r.sector.some(s=>s.toLowerCase().includes(q))
+    );
+  }
+  return items;
+}
+
+/* ====== Run / Reset ====== */
+async function runSearch(){
+  aiBox.style.display = (mode==='ai') ? '' : 'none';
+  renderSkeletons();
+
+  if(mode==='ai'){
+    // имитация задержки + «стрим» текста
+    await new Promise(r=>setTimeout(r,450));
+    const narrative = aiNarrative();
+    aiText.textContent = '';
+    await typewrite(aiText, narrative, 14);
+    await new Promise(r=>setTimeout(r,350));
+    const items = searchAI();
+    renderResults(items);
+  } else {
+    await new Promise(r=>setTimeout(r,300));
+    renderResults(searchByFilters());
+  }
+}
+
+function resetAll(){
+  qEl.value=''; activeTags.clear();
+  [...chipsEl.querySelectorAll('.chip')].forEach(c=>c.classList.remove('active'));
+  aiText.textContent=''; aiBox.style.display='none';
+  renderResults(RESIDENTS);
+}
+
+/* ====== Mode Switch ====== */
+modeAI.onclick = ()=>{ mode='ai'; modeAI.classList.add('active'); modeFilters.classList.remove('active'); runSearch(); }
+modeFilters.onclick = ()=>{ mode='filters'; modeFilters.classList.add('active'); modeAI.classList.remove('active'); runSearch(); }
+
+/* ====== Events ====== */
+runBtn.onclick = runSearch;
+resetBtn.onclick = resetAll;
+qEl.addEventListener('keydown', e=>{ if(e.key==='Enter') runSearch();});
+
+/* ====== Start ====== */
+renderChips();
+renderResults(RESIDENTS);
+</script>
+</body>
+</html>
