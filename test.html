@@ -88,18 +88,18 @@
       statusEl.innerHTML = '<span class="status warning">Проверяется...</span>';
       
       try {
-        // Проверяем доступность сервера
-        const response = await fetch('/api/companies-mini');
+        // Проверяем доступность данных (для GitHub Pages)
+        const response = await fetch('./data-mini.json');
         if (response.ok) {
-          statusEl.innerHTML = '<span class="status success">✅ Сервер работает</span>';
-          log('Сервер доступен', 'success');
+          statusEl.innerHTML = '<span class="status success">✅ Данные доступны</span>';
+          log('Данные доступны', 'success');
         } else {
-          statusEl.innerHTML = '<span class="status error">❌ Ошибка сервера</span>';
-          log(`Ошибка сервера: ${response.status}`, 'error');
+          statusEl.innerHTML = '<span class="status error">❌ Ошибка загрузки данных</span>';
+          log(`Ошибка загрузки данных: ${response.status}`, 'error');
         }
       } catch (error) {
-        statusEl.innerHTML = '<span class="status error">❌ Сервер недоступен</span>';
-        log(`Сервер недоступен: ${error.message}`, 'error');
+        statusEl.innerHTML = '<span class="status error">❌ Данные недоступны</span>';
+        log(`Данные недоступны: ${error.message}`, 'error');
       }
     }
 
@@ -114,7 +114,8 @@
       try {
         log('Начало загрузки данных...', 'info');
         
-        const response = await fetch('/api/companies-mini');
+        // Загружаем данные напрямую из JSON файлов (для GitHub Pages)
+        const response = await fetch('./data-mini.json');
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
@@ -130,8 +131,8 @@
           `Ответственных: ${Object.keys(miniData.focal_mapping).length}`;
         result.className = 'result success';
         
-                 // Инициализируем API
-         deepSeekAPI = new DeepSeekAPI();
+        // Инициализируем API
+        deepSeekAPI = new DeepSeekAPI();
         log('DeepSeek API инициализирован', 'success');
         
         // Активируем кнопку тестирования API
